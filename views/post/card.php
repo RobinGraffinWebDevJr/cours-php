@@ -20,14 +20,9 @@ dd(implode(', ', $categories));
 <div class="card mb-3">
             <div class="card-body">
             <h5 class="card-title"><?= htmlentities($post->getName()) ?></h5>
-            <p class="text-muted"><?= $post->getCreatedAt()->format('d F Y H:i') ?>::
-<?php foreach($post->getCategories() as $k => $category): 
-    if ($k > 0):
-        echo ', ';
-    endif;  
-    $category_url = $router->url('category', ['id' => $category->getID(), 'slug' => $category->getSlug()]);
-    ?><a href="<?= $category_url ?>"><?= e($category->getName()) ?></a><?php
-endforeach ?>
+            <p class="text-muted">
+                <?= $post->getCreatedAt()->format('d F Y H:i') ?>::
+                    <?= implode(', ', $categories) ?>
             </p>
             <p><?= $post->getExcerpt() ?></p>
             <p>

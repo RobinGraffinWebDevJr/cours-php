@@ -5,7 +5,7 @@ use \PDO;
 
 class PaginatedQuery {
 
-    private $query ;
+    private $query;
     private $queryCount;
     private $pdo;
     private $perPage;
@@ -16,20 +16,20 @@ class PaginatedQuery {
         string $query, 
         string $queryCount,
         ?\PDO $pdo = null,
-        $perPage = 12
+        int $perPage = 12
     )
     {
         $this->query = $query;
         $this->queryCount = $queryCount;
-        $this->PDO = $pdo ?: Connection::getPDO();
+        $this->pdo = $pdo ?: Connection::getPDO();
         $this->perPage = $perPage;
     }
 
     public function getItems(string $classMapping): array
     {   
-      if ($this->items === null) {
-        $currentPage = $this->getCurrentPage();
-        $pages = $this->getPages();
+        if ($this->items === null) {
+            $currentPage = $this->getCurrentPage();
+            $pages = $this->getPages();
             if ($currentPage > $pages) {
                 throw new \Exception('Cette page n\'existe pas');
             }     
@@ -38,8 +38,8 @@ class PaginatedQuery {
                 $this->query . 
                 " LIMIT {$this->perPage} OFFSET $offset")
                 ->fetchAll(PDO::FETCH_CLASS, $classMapping);
-      }
-      return $this->items;
+        }
+        return $this->items;
     }
 
     public function previousLink(string $link): ?string
@@ -47,8 +47,8 @@ class PaginatedQuery {
         $currentPage = $this->getCurrentPage(); 
         if ($currentPage <= 1) return null;
         if ($currentPage > 2) $link .= "?page=" . ($currentPage - 1);
-        return  <<<HTML
-        <a href="{$link}" class="btn btn-primary">&laquo; Page Précédente</a>
+        return <<<HTML
+            <a href="{$link}" class="btn btn-primary">&laquo; Page précédente</a>
 HTML;
     }
 
@@ -58,8 +58,8 @@ HTML;
         $pages = $this->getPages();
         if ($currentPage >= $pages) return null;
         $link .= "?page=" . ($currentPage + 1);
-        return  <<<HTML
-        <a href="{$link}" class="btn btn-primary ml-auto">Page suivante &raquo;</a>
+        return <<<HTML
+            <a href="{$link}" class="btn btn-primary ml-auto">Page suivante &raquo;</a>
 HTML;
     }
     
@@ -75,9 +75,7 @@ HTML;
                 ->query($this->queryCount)
                 ->fetch(PDO::FETCH_NUM)[0];
         }
-        $count = (int)$this->pdo
-        ->query($this->queryCount)
-        ->fetch(PDO::FETCH_NUM)[0];
+        
         return ceil($this->count / $this->perPage);
     }
 }

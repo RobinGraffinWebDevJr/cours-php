@@ -6,6 +6,7 @@ class Router {
     /**
      * @var string
      */
+
     private $viewPath;
     /**
      * @var AltoRouter
@@ -20,7 +21,7 @@ class Router {
 
     public function get(string $url, string $view, ?string $name = null): self
     {
-        $this->router->map('GET', $url , $view, $name);
+        $this->router->map('GET', $url, $view, $name);
 
         return $this;
     }

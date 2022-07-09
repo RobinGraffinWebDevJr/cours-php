@@ -13,15 +13,19 @@ $errors = [];
 
 if (!empty($_POST)) {
     Validator::lang('fr');
-    $v = New Validator($_POST);
-    $v->rule('required', 'name');
-    $v->rule('lengthBetween', 'name', 3, 200);
-    $post->setName($_POST['name']);
+    $v = new Validator($_POST);
+    $v->rule('required', ['name', 'slug']);
+    $v->rule('lengthBetween', ['name', 'slug'], 3, 200);
+    $post
+        ->setName($_POST['name'])
+        ->setContent($_POST['content'])
+        ->setSlug($_POST['slug'])
+        ->setCreatedAt($_POST['created_at']);
     if ($v->validate()) {
         $postTable->update($post);
         $success = true;
     } else {
-      $errors = $v->errors();
+        $errors = $v->errors();
     }
 }
 $form = new Form($post, $errors);
@@ -45,5 +49,6 @@ $form = new Form($post, $errors);
     <?= $form->input('name', 'Titre'); ?>
     <?= $form->input('slug', 'URL'); ?>
     <?= $form->textarea('content', 'Contenu'); ?>
+    <?= $form->input('created_at', 'Date de création'); ?>
     <button class="btn btn-primary">Modifier</button>
 </form>

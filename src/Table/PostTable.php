@@ -1,9 +1,8 @@
 <?php
 namespace App\Table;
 
-use Exception;
-use App\Model\Post;
 use App\PaginatedQuery;
+use App\Model\Post;
 
 final class PostTable extends Table {
     
@@ -12,13 +11,16 @@ final class PostTable extends Table {
 
     public function update (Post $post): void 
     {
-        $query = $this->pdo->prepare("UPDATE {$this->table} SET name = :name WHERE id = :id");
+        $query = $this->pdo->prepare("UPDATE {$this->table} SET name = :name, slug = :slug, created_at = :created, content = :content WHERE id = :id");
         $ok = $query->execute([
             'id' => $post->getID(),
-            'name' => $post->getName()
+            'name' => $post->getName(),
+            'slug' => $post->getSlug(),
+            'content' => $post->getContent(),
+            'created' => $post->getCreatedAt()->format('Y-m-d H:i:s')
         ]);
         if ($ok === false) {
-            throw new Exception("Impossible de supprimer l'enregistrement $id dans la table {$this->table}");
+            throw new \Exception("Impossible de supprimer l'enregistrement $id dans la table {$this->table}");
         }
     }
 
@@ -27,7 +29,7 @@ final class PostTable extends Table {
         $query = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = ?");
         $ok = $query->execute([$id]);
         if ($ok === false) {
-            throw new Exception("Impossible de supprimer l'enregistrement $id dans la table {$this->table}");
+            throw new \Exception("Impossible de supprimer l'enregistrement $id dans la table {$this->table}");
         }
     }
 

@@ -18,6 +18,10 @@ class ComposerStaticInit64cf03d569244f256ff0a237b744c318
         array (
             'Whoops\\' => 7,
         ),
+        'V' => 
+        array (
+            'Valitron\\' => 9,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
@@ -42,6 +46,10 @@ class ComposerStaticInit64cf03d569244f256ff0a237b744c318
         'Whoops\\' => 
         array (
             0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',
+        ),
+        'Valitron\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/vlucas/valitron/src/Valitron',
         ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (

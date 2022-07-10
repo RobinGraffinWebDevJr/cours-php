@@ -10,6 +10,6 @@
         "symfony/var-dumper": "^6.1",
         "filp/whoops": "^2.14",
         "fakerphp/faker": "^1.19",
-        "vlucas/valitron": "1.4.5"
+        "vlucas/valitron": "^1.4"
     }
 }

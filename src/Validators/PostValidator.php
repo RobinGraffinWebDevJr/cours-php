@@ -2,7 +2,6 @@
 namespace App\Validators;
 
 use App\Table\PostTable;
-use App\Validators\AbstractValidator;
 
 class PostValidator extends AbstractValidator {
 

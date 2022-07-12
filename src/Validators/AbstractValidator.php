@@ -5,8 +5,8 @@ use App\Validator;
 
 abstract class AbstractValidator {
 
-    abstract protected $data;
-    abstract protected $validator;
+     protected $data;
+     protected $validator;
 
     public function __construct(array $data)
     {

@@ -2,7 +2,7 @@
 namespace App\HTML;
 
 class Form {
-
+    
     private $data;
 
     private $errors;
@@ -13,37 +13,37 @@ class Form {
         $this->errors = $errors;
     }
 
-    public function input (string $key, string $label): string 
+    public function input (string $key, string $label): string
     {
         $value = $this->getValue($key);
         return <<<HTML
-            <div class="from-group"> 
+          <div class="form-group">
             <label for="field{$key}">{$label}</label>
-            <input type="text" id="field{$key}" class="{$this->getInputClass($key)}" name="{$key}" value="{$value}" required> 
+            <input type="text" id="field{$key}" class="{$this->getInputClass($key)}" name="{$key}" value="{$value}" required>
             {$this->getErrorFeedback($key)}
         </div>
 HTML;
     }
 
-    public function textarea (string $key, string $label): string 
+    public function textarea (string $key, string $label): string
     {
         $value = $this->getValue($key);
         return <<<HTML
-            <div class="from-group">
+          <div class="form-group">
             <label for="field{$key}">{$label}</label>
-            <textarea type="text" id="field{$key}" class="{$this->getInputClass($key)}" name="{$key}" required>{$value}</textarea> 
+            <textarea type="text" id="field{$key}" class="{$this->getInputClass($key)}" name="{$key}" required>{$value}</textarea>
             {$this->getErrorFeedback($key)}
         </div>
 HTML;
     }
 
-    private function getValue (string $key): string  
+    private function getValue (string $key): ?string
     {
         if (is_array($this->data)) {
             return $this->data[$key] ?? null;
         }
         $method = 'get' . str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
-        $value = $this->data->$method();
+        $value = $this->data->$method(); 
         if ($value instanceof \DateTimeInterface) {
             return $value->format('Y-m-d H:i:s');
         }
@@ -58,8 +58,8 @@ HTML;
         }
         return $inputClass;
     }
-    
-    private function getErrorFeedback (string $key): string 
+
+    private function getErrorFeedback (string $key): string
     {
         if (isset($this->errors[$key])) {
             return '<div class="invalid-feedback">' . implode('<br>', $this->errors[$key]) . '</div>';

@@ -14,16 +14,16 @@ class Post {
 
     private $content;
 
-    private $created_at;
+    private $created_at = "";
 
     private $categories = [];
 
-    public function getName (): ?string 
+    public function getName (): ?string
     {
-        return $this->name;
+        return $this->name; 
     }
 
-    public function setName (string $name): self 
+    public function setName (string $name): self
     {
         $this->name = $name;
 
@@ -34,15 +34,15 @@ class Post {
     {
         return $this->content;
     }
-    
+
     public function setContent (string $content): self
     {
         $this->content = $content;
-
+        
         return $this;
     }
 
-    public function getFormattedContent (): ?string
+    public function getFormattedContent (): ?string 
     {
         return nl2br(e($this->content));
     }
@@ -60,10 +60,10 @@ class Post {
         return new DateTime($this->created_at);
     }
 
-    public function setCreatedAt (string $date): self 
+    public function setCreatedAt (string $date): self
     {
         $this->created_at = $date;
-
+        
         return $this;
     }
 
@@ -72,10 +72,10 @@ class Post {
         return $this->slug;
     }
 
-    public function setSlug (string $slug): self 
+    public function setSlug (string $slug): self
     {
         $this->slug = $slug;
-
+        
         return $this;
     }
 
@@ -84,8 +84,15 @@ class Post {
         return $this->id;
     }
 
+    public function setID (int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     /**
-     * @return Category[]
+     * @return Category[] 
      */
     public function getCategories (): array
     {
@@ -97,4 +104,5 @@ class Post {
         $this->categories[] = $category;
         $category->setPost($this);
     }
+
 }

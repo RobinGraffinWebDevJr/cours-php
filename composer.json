@@ -1,10 +1,16 @@
 {
+    "name": "alias/cours-php",
     "autoload": {
         "files": ["src/helpers.php"],
         "psr-4": {
             "App\\": "src/"
         }
     },
+    "authors": [
+        {
+            "name": "skip"
+        }
+    ],
     "require": {
         "altorouter/altorouter": "1.2.0",
         "symfony/var-dumper": "^6.1",

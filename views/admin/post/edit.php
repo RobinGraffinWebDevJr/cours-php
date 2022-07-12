@@ -1,9 +1,12 @@
 <?php
 use App\Connection;
 use App\Table\PostTable;
-use App\Validator;
 use App\HTML\Form;
 use App\Validators\PostValidator;
+use App\ObjectHelper;
+use App\Auth;
+
+Auth::check();
 
 $pdo = Connection::getPDO();
 $postTable = new PostTable($pdo);
@@ -13,15 +16,10 @@ $success = false;
 $errors = [];
 
 if (!empty($_POST)) {
-    Validator::lang('fr');
     $v = new PostValidator($_POST, $postTable, $post->getID());
-    $post
-        ->setName($_POST['name'])
-        ->setContent($_POST['content'])
-        ->setSlug($_POST['slug'])
-        ->setCreatedAt($_POST['created_at']);
+    ObjectHelper::hydrate($post, $_POST, ['name', 'content', 'slug', 'created_at']);
     if ($v->validate()) {
-        $postTable->update($post);
+        $postTable->updatePost($post);
         $success = true;
     } else {
         $errors = $v->errors();
@@ -32,7 +30,13 @@ $form = new Form($post, $errors);
 
 <?php if ($success): ?>
 <div class="alert alert-success">
-    L'article a bien été modifié 
+    L'article a bien été modifié
+</div>
+<?php endif ?>
+
+<?php if (isset($_GET['created'])): ?>
+<div class="alert alert-success">
+    L'article a bien été créé
 </div>
 <?php endif ?>
 
@@ -44,10 +48,4 @@ $form = new Form($post, $errors);
 
 <h1>Editer l'article <?= e($post->getName()) ?></h1>
 
-<form action="" method="POST">
-    <?= $form->input('name', 'Titre'); ?>
-    <?= $form->input('slug', 'URL'); ?>
-    <?= $form->textarea('content', 'Contenu'); ?>
-    <?= $form->input('created_at', 'Date de création'); ?>
-    <button class="btn btn-primary">Modifier</button>
-</form>
+<?php require('_form.php') ?>

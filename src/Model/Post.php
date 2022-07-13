@@ -14,7 +14,7 @@ class Post {
 
     private $content;
 
-    private $created_at = "";
+    private $created_at;
 
     private $categories = [];
 
@@ -97,6 +97,24 @@ class Post {
     public function getCategories (): array
     {
         return $this->categories;
+    }
+
+    public function getCategoriesIds (): array {
+        $ids = [];
+        foreach($this->categories as $category) {
+            $ids[] = $category->getID();
+        }
+        return $ids;
+    }
+
+    /**
+     * @return Category[] 
+     */
+    public function setCategories (array $categories): self
+    {
+        $this->categories = $categories;
+
+        return $this;
     }
 
     public function addCategory (Category $category): void

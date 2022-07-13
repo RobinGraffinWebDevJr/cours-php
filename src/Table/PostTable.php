@@ -30,6 +30,14 @@ final class PostTable extends Table {
         $post->setID($id);
     }
 
+    public function attachCategories (int $id, array $categories) {
+        $this->pdo->exec('DELETE FROM post_category WHERE post_id = ' . $id);
+        $query = $this->pdo->prepare('INSERT INTO post_category SET post_id = ?, category_id = ?');
+        foreach($categories as $category) {
+            $query->execute([$id, $category]);
+        }
+    }
+
     public function findPaginated () {
         $paginatedQuery = new PaginatedQuery(
             "SELECT * FROM {$this->table} ORDER BY created_at DESC",
@@ -54,6 +62,6 @@ final class PostTable extends Table {
         $posts = $paginatedQuery->getItems(Post::class);
         (new CategoryTable($this->pdo))->hydratePosts($posts);
         return [$posts, $paginatedQuery];
-
     }
+    
 }

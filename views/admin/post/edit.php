@@ -20,7 +20,7 @@ $success = false;
 $errors = [];
 
 if (!empty($_POST)) {
-    $v = new PostValidator($_POST, $postTable, $post->getID(), $categories);
+    $v = new PostValidator($_POST, $postTable, $categories, $post->getID());
     ObjectHelper::hydrate($post, $_POST, ['name', 'content', 'slug', 'created_at']);
     if ($v->validate()) {
         $pdo->beginTransaction();

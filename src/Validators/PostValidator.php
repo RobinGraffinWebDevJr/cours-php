@@ -5,7 +5,7 @@ use App\Table\PostTable;
 
 class PostValidator extends AbstractValidator {
 
-    public function __construct(array $data, PostTable $table, ?int $postID = null, array $categories)
+    public function __construct(array $data, PostTable $table, array $categories, ?int $postID)
     {
         parent::__construct($data);
         $this->validator->rule('required', ['name', 'slug']);
@@ -16,5 +16,5 @@ class PostValidator extends AbstractValidator {
             return !$table->exists($field, $value, $postID);
         }, ['slug', 'name'], 'Cette valeur est déjà utilisée');
     }
-    
+
 }

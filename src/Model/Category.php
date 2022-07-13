@@ -2,6 +2,7 @@
 namespace App\Model;
 
 class Category {
+
     private $id;
 
     private $slug;
@@ -34,7 +35,6 @@ class Category {
         return $this;
     }
 
-
     public function getName (): ?string {
         return $this->name;
     }
@@ -48,7 +48,7 @@ class Category {
 
     public function getPostID (): ?int
     {
-        return$this->post_id;
+        return $this->post_id;
     }
 
     public function setPost (Post $post) {

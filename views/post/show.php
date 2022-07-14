@@ -29,4 +29,9 @@ if($post->getSlug() !== $slug) {
     $category_url = $router->url('category', ['id' => $category->getID(), 'slug' => $category->getSlug()]);
     ?><a href="<?= $category_url ?>"><?= e($category->getName()) ?></a><?php
 endforeach ?>
+    <?php if ($post->getImage()): ?>
+    <p>
+        <img src="<?= $post->getImageURL('large') ?>" style="width: 100%">
+    </p>
+    <?php endif ?>
 <p><?= $post->getFormattedContent() ?></p>

@@ -1,4 +1,5 @@
 <?php
+
 use App\Auth;
 use App\HTML\Form;
 use App\Connection;
@@ -7,6 +8,7 @@ use App\ObjectHelper;
 use App\Table\PostTable;
 use App\Table\CategoryTable;
 use App\Validators\PostValidator;
+use App\Attachment\PostAttachment;
 
 Auth::check();
 
@@ -19,11 +21,12 @@ $post->setCreatedAt(date('Y-m-d H:i:s'));
 
 if (!empty($_POST)) {
     $postTable = new PostTable($pdo);
-    
-    $v = new PostValidator($_POST, $postTable, $categories, $post->getID());
-    ObjectHelper::hydrate($post, $_POST, ['name', 'content', 'slug', 'created_at']);
+    $data = array_merge($_POST, $_FILES);
+    $v = new PostValidator($data, $postTable, $categories, $post->getID());
+    ObjectHelper::hydrate($post, $data, ['name', 'content', 'slug', 'created_at', 'image']);
     if ($v->validate()) {  
         $pdo->beginTransaction();
+        PostAttachment::upload($post);
         $postTable->createPost($post);
         $postTable->attachCategories($post->getID(), $_POST['categories_ids']);
         $pdo->commit();
